@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>خدمة مراكش – أحدث عروض الشغل فمراكش</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#22339B;      /* أزرق ماجوريل */
+    --blue-deep:#161F63;
+    --saffron:#F2B01E;   /* أصفر الحديقة */
+    --ink:#14183A;
+    --paper:#EEF1F8;
+    --white:#fff;
+    --line:#D5DAEA;
+    --wa:#128C4A;
+    --danger:#B3261E;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Tajawal',system-ui,sans-serif;font-size:17px;line-height:1.7}
+  h1,h2,h3{font-family:'Reem Kufi','Tajawal',sans-serif;margin:0;line-height:1.3}
+  button,input,select,textarea{font:inherit;color:inherit}
+  :focus-visible{outline:3px solid var(--saffron);outline-offset:2px}
+
+  /* ---------- الهيرو ---------- */
+  .hero{background:var(--blue);color:#fff;padding:28px 18px 64px;position:relative;overflow:hidden}
+  .hero::after{ /* شريط الزليج */
+    content:"";position:absolute;inset-inline:0;bottom:0;height:22px;
+    background:
+      conic-gradient(from 45deg at 50% 50%, var(--saffron) 0 25%, transparent 0 50%, var(--saffron) 0 75%, transparent 0) 0 0/22px 22px,
+      var(--blue-deep);
+    opacity:.95
+  }
+  .wrap{max-width:760px;margin:0 auto}
+  .brand{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:34px}
+  .brand strong{font-family:'Reem Kufi',sans-serif;font-size:22px}
+  .btn{border:0;border-radius:10px;padding:10px 18px;cursor:pointer;font-weight:700;text-decoration:none;display:inline-block}
+  .btn-saffron{background:var(--saffron);color:var(--ink)}
+  .btn-saffron:hover{background:#ffc43d}
+  .hero h1{font-size:clamp(34px,8vw,54px);max-width:14ch}
+  .hero p{margin:14px 0 0;max-width:38ch;color:#DDE2FF}
+
+  /* ---------- الفلاتر ---------- */
+  .filters{background:var(--white);border-radius:14px;margin:-36px auto 0;position:relative;z-index:2;
+    padding:16px;display:grid;gap:10px;grid-template-columns:1fr 1fr;box-shadow:0 8px 24px rgba(22,31,99,.14)}
+  .filters .full{grid-column:1/-1}
+  .filters input,.filters select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+  .filters input:focus,.filters select:focus{border-color:var(--blue)}
+
+  /* ---------- اللائحة ---------- */
+  .count{margin:24px 4px 10px;font-family:'Reem Kufi','Tajawal',sans-serif;font-size:22px;font-weight:700}
+  .toast{position:fixed;inset-inline:14px;bottom:18px;max-width:520px;margin:0 auto;background:var(--blue-deep);color:#fff;border-radius:12px;padding:14px 16px;border-inline-start:6px solid var(--saffron);z-index:20;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  .toast[hidden]{display:none}
+  .job{background:var(--white);border-radius:12px;padding:16px 16px 14px;margin-bottom:12px;
+    border-inline-start:6px solid var(--line)}
+  .job.verified{border-inline-start-color:var(--saffron)}
+  .job h3{font-size:21px}
+  .company{color:#4a5080;font-weight:500}
+  .badge{display:inline-block;background:#FFF3D1;color:#7a5500;border-radius:6px;padding:0 8px;font-size:14px;font-weight:700;margin-inline-start:6px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+  .tag{background:var(--paper);border-radius:6px;padding:1px 10px;font-size:15px}
+  .salary{font-weight:700;color:var(--blue)}
+  .req{margin:6px 0 12px;white-space:pre-line}
+  .foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:space-between}
+  .btn-wa{background:var(--wa);color:#fff}
+  .btn-wa:hover{background:#0e7a40}
+  .meta{color:#6a7099;font-size:14px}
+  .report{background:none;border:0;color:var(--danger);cursor:pointer;text-decoration:underline;padding:4px;font-size:14px}
+  .empty{background:var(--white);border-radius:12px;padding:28px;text-align:center}
+
+  /* ---------- نصائح السلامة ---------- */
+  .safety{background:var(--blue-deep);color:#fff;border-radius:14px;padding:20px;margin:26px 0}
+  .safety h2{font-size:22px;color:var(--saffron);margin-bottom:8px}
+  .safety ul{margin:0;padding-inline-start:20px}
+  .safety li{margin:4px 0}
+  footer{padding:10px 18px 40px;color:#6a7099;text-align:center;font-size:14px}
+
+  /* ---------- نافذة النشر ---------- */
+  dialog{border:0;border-radius:16px;padding:0;width:min(560px,94vw);max-height:92vh;color:var(--ink)}
+  dialog::backdrop{background:rgba(20,24,58,.6)}
+  .dlg{padding:20px}
+  .dlg h2{font-size:24px;margin-bottom:4px}
+  .dlg .note{color:#4a5080;margin:0 0 14px;font-size:15px}
+  label{display:block;font-weight:700;margin:12px 0 4px}
+  .dlg input,.dlg select,.dlg textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px}
+  .dlg textarea{min-height:88px;resize:vertical}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .dlg-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+  .btn-blue{background:var(--blue);color:#fff}
+  .btn-blue:hover{background:var(--blue-deep)}
+  .btn-plain{background:var(--paper)}
+  .err{color:var(--danger);font-size:15px;margin-top:8px;min-height:1.2em}
+
+  @media (max-width:520px){ .filters{grid-template-columns:1fr} .row2{grid-template-columns:1fr} }
+  @media (prefers-reduced-motion:no-preference){ .job{transition:box-shadow .15s} .job:hover{box-shadow:0 4px 14px rgba(22,31,99,.12)} }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">
+      <strong>خدمة مراكش</strong>
+      <button class="btn btn-saffron" id="openPost">نشر عرض شغل</button>
+    </div>
+    <h1>شغل فمراكش، مباشرة مع الشركة</h1>
+    <p>عروض الشغل فالرياض، المطاعم، الفنادق والخدمات. شوف العرض وتواصل فواتساب. بلا وسيط، وبلا خلاص.</p>
+  </div>
+</header>
+
+<main class="wrap" style="padding:0 14px">
+  <section class="filters" aria-label="البحث">
+    <input class="full" id="q" type="search" placeholder="قلب على مهنة أو شركة (مثلا: نادل)">
+    <select id="cat" aria-label="المهنة"><option value="">كل المهن</option></select>
+    <select id="dist" aria-label="الحي"><option value="">كل الأحياء</option></select>
+  </section>
+
+  <div class="count" id="count" aria-live="polite"></div>
+  <div id="list"></div>
+
+  <section class="safety" aria-label="نصائح السلامة">
+    <h2>باش ما تطيحش فالنصب</h2>
+    <ul>
+      <li>الشركة الحقيقية عمرها كتطلب منك فلوس باش تخدم عندها.</li>
+      <li>ما تعطي صورة البطاقة الوطنية قبل ما تلتقي بالشركة.</li>
+      <li>دير المقابلة فمكان معروف، وقول لشي واحد فين غادي.</li>
+      <li>شفتي شي عرض مشبوه؟ ضغط على "بلّغ" وغادي نحيدوه.</li>
+    </ul>
+  </section>
+</main>
+
+<div id="toast" class="toast" role="status" hidden></div>
+<footer>عروض الشغل كتنزل من الشركات. الموقع كيراجعها، ولكن ديما تحقق بنفسك قبل ما تمشي.</footer>
+
+<dialog id="dlg">
+  <div class="dlg">
+    <h2>نشر عرض شغل</h2>
+    <p class="note">عمر المعلومات وضغط على نشر. كنراجعو كل عرض قبل ما يبان فالموقع، وحماية للباحثين على الشغل.</p>
+    <form id="postForm" novalidate>
+      <input id="f_site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <label for="f_company">اسم الشركة / المؤسسة</label>
+      <input id="f_company" required>
+      <label for="f_title">المهنة المطلوبة</label>
+      <input id="f_title" required placeholder="مثلا: نادل، طباخ، سائق">
+      <div class="row2">
+        <div><label for="f_cat">الفئة</label><select id="f_cat"></select></div>
+        <div><label for="f_dist">الحي</label><select id="f_dist"></select></div>
+      </div>
+      <label for="f_salary">الصالير</label>
+      <input id="f_salary" placeholder="مثلا: 3000 درهم فالشهر">
+      <label for="f_req">الشروط</label>
+      <textarea id="f_req" placeholder="التجربة، اللغات، التوقيت..."></textarea>
+      <label for="f_phone">رقم واتساب ديال الشركة</label>
+      <input id="f_phone" inputmode="tel" placeholder="06XXXXXXXX" required>
+      <div class="err" id="err" role="alert"></div>
+      <div class="dlg-actions">
+        <button type="submit" class="btn btn-wa">نشر العرض</button>
+        <button type="button" class="btn btn-plain" id="closePost">إلغاء</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+/* =====================  الإعدادات (بدّل هادو)  ===================== */
+const CONFIG = {
+  // رقمك أنت كمدير للموقع (بصيغة دولية بلا +). العروض الجديدة والتبليغات كتوصل ليك هنا.
+  ADMIN_WHATSAPP: "212600000000",
+
+  // بيانات Supabase (كتلقاها فـ Project Settings ← API). إلا خليتها فارغة الموقع كيخدم بعروض تجريبية.
+  SUPABASE_URL: "",       // مثال: https://abcdxyz.supabase.co
+  SUPABASE_ANON_KEY: "",  // المفتاح العمومي (anon public). ماشي service_role!
+
+  CATEGORIES: ["مطعم ومقهى","رياض وفندق","تنظيف","سياقة ونقل","مبيعات واستقبال","حرف وصناعة تقليدية","أخرى"],
+  DISTRICTS: ["جيليز","جيليز – جنان الحارثي","المدينة القديمة","الداوديات","المسيرة","سيدي يوسف بن علي","المحاميد","باب دكالة","أخرى"]
+};
+
+/* عروض تجريبية (خيالية) باش تشوف كيفاش كيبان الموقع. مسحها ملي تبدا. */
+const daysAgo = n => new Date(Date.now() - n*864e5).toISOString().slice(0,10);
+const SAMPLE = [
+  {company:"مطعم تجريبي",title:"نادل / نادلة",category:"مطعم ومقهى",district:"جيليز",salary:"3000 درهم + بقشيش",requirements:"تجربة سنة على الأقل\nالدارجة والفرنسية\nالتوقيت: من 6 مساء لـ 12 ليلا",phone:"0600000000",date:daysAgo(0),verified:true},
+  {company:"رياض تجريبي",title:"عاملة تنظيف",category:"رياض وفندق",district:"المدينة القديمة",salary:"2600 درهم فالشهر",requirements:"جدية ونظافة\nتوقيت الصباح",phone:"0600000000",date:daysAgo(2),verified:true},
+  {company:"شركة نقل سياحي تجريبية",title:"سائق",category:"سياقة ونقل",district:"المسيرة",salary:"4000 درهم",requirements:"رخصة السياقة صنف B\nتجربة فالنقل السياحي",phone:"0600000000",date:daysAgo(5),verified:false}
+];
+
+/* =====================  الكود  ===================== */
+const $ = s => document.querySelector(s);
+let JOBS = [];
+
+function fillSelect(el, items, first){
+  if(first){ /* الخيار الأول موجود فـ HTML */ }
+  items.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; el.appendChild(o); });
+}
+fillSelect($('#cat'), CONFIG.CATEGORIES, true);
+fillSelect($('#dist'), CONFIG.DISTRICTS, true);
+fillSelect($('#f_cat'), CONFIG.CATEGORIES);
+fillSelect($('#f_dist'), CONFIG.DISTRICTS);
+
+function normPhone(p){
+  let d = String(p||'').replace(/\D/g,'');
+  if(d.startsWith('00')) d = d.slice(2);
+  if(d.startsWith('0')) d = '212' + d.slice(1);
+  return d;
+}
+function validPhone(p){ return /^212[5-7]\d{8}$/.test(normPhone(p)); }
+function waLink(phone, text){ return 'https://wa.me/' + normPhone(phone) + '?text=' + encodeURIComponent(text); }
+
+function ago(dateStr){
+  const d = Math.floor((Date.now() - new Date(dateStr).getTime())/864e5);
+  if(isNaN(d)) return '';
+  if(d<=0) return 'اليوم';
+  if(d===1) return 'البارح';
+  if(d<30) return 'من ' + d + ' أيام';
+  return 'من مدة';
+}
+
+function el(tag, cls, text){
+  const e=document.createElement(tag);
+  if(cls) e.className=cls;
+  if(text!==undefined) e.textContent=text;   // textContent = حماية من الأكواد الخبيثة
+  return e;
+}
+
+function render(){
+  const q = $('#q').value.trim().toLowerCase();
+  const cat = $('#cat').value, dist = $('#dist').value;
+  const rows = JOBS
+    .filter(j => (!cat || j.category===cat) && (!dist || j.district===dist) &&
+      (!q || (j.title+' '+j.company+' '+j.requirements).toLowerCase().includes(q)))
+    .sort((a,b)=> new Date(b.date)-new Date(a.date));
+
+  $('#count').textContent = rows.length ? 'أحدث العروض' : '';
+  const list = $('#list'); list.replaceChildren();
+
+  if(!rows.length){
+    const e = el('div','empty');
+    e.appendChild(el('h3','', 'ما لقينا حتى عرض'));
+    e.appendChild(el('p','', 'بدل المهنة أو الحي. ولا نشر أنت عرض إلا كنتي شركة.'));
+    list.appendChild(e); return;
+  }
+
+  rows.forEach(j=>{
+    const card = el('article','job' + (j.verified?' verified':''));
+    const h = el('h3','', j.title);
+    if(j.verified) h.appendChild(el('span','badge','شركة متحقق منها'));
+    card.appendChild(h);
+    card.appendChild(el('div','company', j.company));
+
+    const tags = el('div','tags');
+    tags.appendChild(el('span','tag', j.category));
+    tags.appendChild(el('span','tag', j.district));
+    card.appendChild(tags);
+
+    if(j.salary) card.appendChild(el('div','salary', j.salary));
+    if(j.requirements) card.appendChild(el('div','req', j.requirements));
+
+    const foot = el('div','foot');
+    const wa = el('a','btn btn-wa','تواصل فواتساب');
+    wa.href = waLink(j.phone, 'السلام، شفت عرض "' + j.title + '" عند ' + j.company + ' فموقع خدمة مراكش. بغيت نعرف أكثر.');
+    wa.target = '_blank'; wa.rel = 'noopener';
+    foot.appendChild(wa);
+
+    const right = el('div');
+    right.appendChild(el('span','meta', ago(j.date)));
+    const rep = el('button','report','بلّغ');
+    rep.type='button';
+    rep.addEventListener('click',()=>{
+      window.open(waLink(CONFIG.ADMIN_WHATSAPP, 'تبليغ عن عرض مشبوه:\nالمهنة: '+j.title+'\nالشركة: '+j.company+'\nالرقم: '+j.phone+'\nالسبب: '), '_blank');
+    });
+    right.appendChild(rep);
+    foot.appendChild(right);
+    card.appendChild(foot);
+    list.appendChild(card);
+  });
+}
+
+/* ----- تحميل العروض من Supabase ----- */
+const LIVE = !!(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY);
+const sbHeaders = () => {
+  const h = {apikey:CONFIG.SUPABASE_ANON_KEY};
+  if(CONFIG.SUPABASE_ANON_KEY.startsWith('eyJ')) h.Authorization = 'Bearer '+CONFIG.SUPABASE_ANON_KEY; // مفتاح قديم (JWT)
+  return h;
+};
+
+async function load(){
+  if(!LIVE){ JOBS = SAMPLE; render(); return; }
+  try{
+    const url = CONFIG.SUPABASE_URL.replace(/\/$/,'') +
+      '/rest/v1/jobs?select=company,title,category,district,salary,requirements,phone,created_at,verified' +
+      '&status=eq.approved&order=created_at.desc&limit=100';
+    const res = await fetch(url,{headers:sbHeaders()});
+    if(!res.ok) throw new Error(res.status);
+    JOBS = (await res.json()).map(j=>({...j, date:j.created_at}));
+  }catch(e){
+    JOBS = [];
+    $('#count').textContent = 'وقع مشكل فتحميل العروض. عاود دوز الصفحة بعد شوية.';
+    return;
+  }
+  render();
+}
+
+['input','change'].forEach(ev=>{
+  $('#q').addEventListener(ev,render);
+  $('#cat').addEventListener(ev,render);
+  $('#dist').addEventListener(ev,render);
+});
+
+/* ----- نافذة النشر ----- */
+const dlg = $('#dlg');
+$('#openPost').addEventListener('click',()=>{ $('#err').textContent=''; dlg.showModal(); });
+$('#closePost').addEventListener('click',()=>dlg.close());
+let lastSubmit = 0;
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.hidden=false;
+  setTimeout(()=>{t.hidden=true},6000);
+}
+$('#postForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const v = id => $('#'+id).value.trim();
+  if($('#f_site').value) { dlg.close(); return; }            // فخ ديال البوتات
+  if(!v('f_company')||!v('f_title')){ $('#err').textContent='عمر اسم الشركة والمهنة.'; return; }
+  if(!validPhone(v('f_phone'))){ $('#err').textContent='رقم واتساب ماشي صحيح. مثال: 0612345678'; return; }
+  if(Date.now()-lastSubmit < 60000){ $('#err').textContent='تسنى شوية قبل ما تنشر عرض آخر.'; return; }
+
+  const job = {
+    company:v('f_company'), title:v('f_title'), category:v('f_cat'), district:v('f_dist'),
+    salary:v('f_salary')||null, requirements:v('f_req')||null, phone:normPhone(v('f_phone'))
+  };
+
+  if(!LIVE){   // وضع التجربة: كنصيفطو العرض للمدير فواتساب
+    const msg = 'عرض شغل جديد للنشر:\nالشركة: '+job.company+'\nالمهنة: '+job.title+'\nالفئة: '+job.category+
+      '\nالحي: '+job.district+'\nالصالير: '+(job.salary||'-')+'\nالشروط: '+(job.requirements||'-')+'\nواتساب: '+job.phone;
+    window.open(waLink(CONFIG.ADMIN_WHATSAPP, msg), '_blank');
+    dlg.close(); e.target.reset(); return;
+  }
+
+  const btn = e.submitter; btn.disabled = true; $('#err').textContent='';
+  try{
+    const res = await fetch(CONFIG.SUPABASE_URL.replace(/\/$/,'')+'/rest/v1/jobs',{
+      method:'POST',
+      headers:{...sbHeaders(),'Content-Type':'application/json',Prefer:'return=minimal'},
+      body:JSON.stringify(job)
+    });
+    if(!res.ok) throw new Error(res.status);
+    lastSubmit = Date.now();
+    dlg.close(); e.target.reset();
+    toast('توصل العرض ديالك. غادي نراجعوه وقريب يبان فالموقع.');
+  }catch(err){
+    $('#err').textContent='ما قدرناش ننشرو العرض. تأكد من الأنترنيت وعاود.';
+  }finally{ btn.disabled = false; }
+});
+
+load();
+</script>
+</body>
+</html>
